@@ -2,6 +2,9 @@
 
 - Create React App
 - Configure tailwind css
+- Header
+- Login Form
+- Sign Up Form
   
 
 # features
@@ -19,3 +22,12 @@
   - Search Bar
   - Movie Suggestions
   
+
+
+
+
+
+# import tool
+
+* formik - used for big form
+* 
