@@ -1,20 +1,18 @@
+import MovieCard from "./MovieCard";
 
-import React from 'react'
-import MovieCard from './MovieCard'
-const MovieList = ({title,movies}) => {
-  console.log('title',title)
+const MovieList = ({ title, movies }) => {
+  console.log(title,movies)
   return (
-    <div className='px-6 bg-black'>
-        <h2 className='text-3xl py-4 text-white '>{title}</h2>
-        <div className='flex h-40 overflow-x-scroll'>
-            <div className='flex w-screen'>
-                {
-                movies?.map((movie)=><MovieCard id={movie?.id} key={movie.id} poster_path={movie?.poster_path}  original_title={movie?.original_title} />)
-                }
-            </div>
+    <div className="px-6 bg-black">
+      <h1 className="text-lg md:text-3xl py-4 text-white">{title}</h1>
+      <div className="flex overflow-x-scroll">
+        <div className="flex">
+          {movies?.map((movie) => (
+            <MovieCard key={movie.id} posterPath={movie.poster_path} />
+          ))}
         </div>
+      </div>
     </div>
-  )
-}
-
-export default MovieList
+  );
+};
+export default MovieList;

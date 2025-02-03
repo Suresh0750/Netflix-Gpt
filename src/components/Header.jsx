@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import {auth} from '../utils/firebase'
@@ -8,7 +8,8 @@ import {LOGO} from '../utils/constants.js'
 
 const Header = () => {
   const navigate = useNavigate()
-  const userData = useSelector((state)=>state.user)
+  const user = useSelector((state)=>state.user)
+  const showGptSearch  = null
 
 
   const handleSignOut = ()=>{
@@ -25,24 +26,39 @@ const Header = () => {
 
   }
   return (  
-    <div className='absolute px-8 py-2 bg-gradient-to-b from-black z-20 flex justify-between w-screen'>
-        <img   
-        className='w-44 z-10'
-        src= {LOGO} 
-        alt='logo' 
+    <div className="absolute w-full px-8 py-2 bg-gradient-to-b from-black z-20 flex flex-col md:flex-row justify-between">
+    <img className="w-44 mx-auto z-10 md:mx-0" src={LOGO} alt="logo" />
+    {user && (
+      <div className="flex p-2 justify-between">
+        {showGptSearch && (
+          <select
+            className="p-2 m-2 bg-gray-900 text-white"
+            onChange={handleLanguageChange}
+          >
+            {SUPPORTED_LANGUAGES?.map((lang) => (
+              <option key={lang?.identifier} value={lang?.identifier}>
+                {lang?.name}
+              </option>
+            ))}
+          </select>
+        )}
+        {/* <button
+          className="py-2 px-4 mx-4 my-2 bg-purple-800 text-white rounded-lg"
+          onClick={handleGptSearchClick}
+        >
+          {showGptSearch ? "Homepage" : "GPT Search"}
+        </button> */}
+        <img
+          className="hidden md:block w-12 h-12"
+          alt="usericon"
+          src={user?.photoURL}
         />
-        {
-          userData && (
-            <div className='w-25 p-2 h-12  flex justify-between items-center cursor-pointer '>
-                <div className='w-10 h-full'>
-                      <img className='rounded' src= {userData?.photoURL} alt="User Profile" />
-                </div>
-                <button onClick={handleSignOut} className='bg-black rounded text-red-500 font-bold mx-2 w-full h-full px-2'>Sign Out</button>
-            </div>
-          )
-        }
-      
-    </div>
+        <button onClick={handleSignOut} className="font-bold text-white ">
+          (Sign Out)
+        </button>
+      </div>
+    )}
+  </div>
   )
 }
 

@@ -12,7 +12,7 @@ const Browse = () => {
 
   const navigate = useNavigate()
   const userData = useSelector((state)=>state.user)
-  const movies = useSelector((state)=>state.movies)
+
 
   useNowPlayingMovies();
 
@@ -34,7 +34,7 @@ const Browse = () => {
   */
 
   return (
-    <div className='w-screen'>
+    <div>
       <Header />
       <MainContainer />
       <SecondaryContainer />
