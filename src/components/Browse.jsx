@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 import useNowPlayingMovies from '../hooks/useNowPlaying'
 import MainContainer from './MainContainer'
 import SecondaryContainer from './SecondaryContainer'
-import VideoBackground from './VideoBackground'
 
 
 
@@ -35,9 +34,10 @@ const Browse = () => {
   */
 
   return (
-    <div>
+    <div className='w-screen'>
       <Header />
       <MainContainer />
+      <SecondaryContainer />
     </div>
   )
 }
