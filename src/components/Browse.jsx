@@ -3,6 +3,7 @@ import Header from './Header'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import useNowPlayingMovies from '../hooks/useNowPlaying'
+import usePopularMovies from '../hooks/usePopularMovies'
 import MainContainer from './MainContainer'
 import SecondaryContainer from './SecondaryContainer'
 
@@ -15,6 +16,7 @@ const Browse = () => {
 
 
   useNowPlayingMovies();
+  usePopularMovies();
 
   // * handle login user
   useEffect(()=>{
