@@ -5,7 +5,7 @@ import Header from './Header'
 import {checkValidData} from '../utils/validate.js'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {USER_AVATAR} from '../utils/constants.js'
+import {BG_URL, USER_AVATAR} from '../utils/constants.js'
 
 const Login = () => {
 
@@ -80,7 +80,7 @@ const Login = () => {
         <div className='absolute bg-gradient-to-b from-black'>
             <img 
               className=''
-              src="https://assets.nflxext.com/ffe/siteui/vlv3/7a8c0067-a424-4e04-85f8-9e25a49a86ed/web/IN-en-20250120-TRIFECTA-perspective_860a95da-c386-446e-af83-fef8ddd80803_large.jpg" 
+              src={BG_URL }
               alt="bg_img" 
               />
         </div>

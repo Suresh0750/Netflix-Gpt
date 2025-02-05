@@ -26,3 +26,5 @@ export const BG_URL = "https://assets.nflxext.com/ffe/siteui/vlv3/fc164b4b-f085-
 export const NOW_PLAYING_MOVIES = 'https://api.themoviedb.org/3/movie/now_playing?page=1'
 
 export const POPULAR_MOVIES = "https://api.themoviedb.org/3/movie/popular?page=1"
+
+export const SUPPORTED_LANGUAGES = [{identifier:'en',name:'English'},{identifier:'hindi',name:'Hindi'},{identifier:'spanish',name:'Spanish'}]

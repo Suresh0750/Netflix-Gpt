@@ -6,6 +6,7 @@ import useNowPlayingMovies from '../hooks/useNowPlaying'
 import usePopularMovies from '../hooks/usePopularMovies'
 import MainContainer from './MainContainer'
 import SecondaryContainer from './SecondaryContainer'
+import GptSearch from './GptSearch'
 
 
 
@@ -13,6 +14,7 @@ const Browse = () => {
 
   const navigate = useNavigate()
   const userData = useSelector((state)=>state.user)
+  const showGptSearch = useSelector((store)=>store.gpt.showGptSearch)
 
 
   useNowPlayingMovies();
@@ -25,21 +27,21 @@ const Browse = () => {
     }
   },[])
 
-  /*
-  Maincontainer 
-      - video
-      - Title
-  
-  Secondary container
-      - Movies List
-      - Cards list
-  */
 
   return (
     <div>
       <Header />
-      <MainContainer />
-      <SecondaryContainer />
+      {
+        showGptSearch ? (
+          <GptSearch />
+        ) : (
+          <>
+          <MainContainer />
+          <SecondaryContainer />
+          </>
+        )
+      }
+      
     </div>
   )
 }
