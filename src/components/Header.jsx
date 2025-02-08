@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {LOGO} from '../utils/constants.js'
 import {toggleGptSearchView} from '../utils/gptSlice.js'
 import {SUPPORTED_LANGUAGES} from '../utils/constants.js'
+import {changeLanguage} from '../utils/configSlice.js'
 
 
 
@@ -35,7 +36,8 @@ const Header = () => {
 
 
   const handleLanguageChange = (e)=>{
-    // handle show language login
+    // * handle show language login
+    dispatch(changeLanguage(e?.target?.value))
     console.log(e?.target?.value)
   }
 

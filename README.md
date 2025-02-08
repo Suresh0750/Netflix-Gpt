@@ -35,7 +35,8 @@
 - Made the Browser page amazing with Tailwind Css
 - usePopuler Movies custom hook.
 - Build Gptsearch
-- 
+- GPT Search Bar
+- (BONUS) Multi-language Feature in our App
   
 
 
