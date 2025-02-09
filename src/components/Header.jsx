@@ -38,7 +38,6 @@ const Header = () => {
   const handleLanguageChange = (e)=>{
     // * handle show language login
     dispatch(changeLanguage(e?.target?.value))
-    console.log(e?.target?.value)
   }
 
 

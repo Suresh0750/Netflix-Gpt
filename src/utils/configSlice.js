@@ -1,3 +1,4 @@
+// * application level config slice. Here we can use application level data managment
 import { createSlice } from "@reduxjs/toolkit";
 
 
