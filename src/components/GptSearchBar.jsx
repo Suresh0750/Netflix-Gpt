@@ -2,14 +2,30 @@ import React, { useRef, useState } from "react";
 import Lang from '../utils/languageConstents'
 import { useSelector } from "react-redux";
 import openai from "../utils/openai";
+import toast, { Toaster } from 'react-hot-toast'
+import { API_OPTIONS } from "../utils/constants";
+
+
 const GptSearchBar = () => {
 
   const selectLanguage = useSelector((store)=>store?.config?.lang)
   const searchText = useRef(null)
   const [loading ,setLoading] = useState(false)
 
+
+  const searchMovieTMDB = async () => {
+    try {
+      const data = await  fetch('https://api.themoviedb.org/3/search/movie?query=leo&include_adult=false&language=en-US&page=1', API_OPTIONS)
+      const json = await data.json()
+      return json
+    } catch (error) {
+      console.log(error?.message)
+      toast.error(error?.message)
+    }
+  }
+
   // * 
-  const handleSearchClick = (e)=>{
+  const handleSearchClick = async (e)=>{
     e.preventDefault()
     if(loading) return
     setLoading(true)
@@ -18,19 +34,40 @@ const GptSearchBar = () => {
     'Act as a movie recommendation system and suggest some movies for the query :' +
     searchText.current.value +
     'Give 5 movie names, comma seperated like the example result: Nanban, Vadachennai, Meiyazhagan, Petta, Billa'
-
+    
     try {
-      async function main() {
-        const chatCompletion = await openai.chat.completions.create({
+      let gptResults = {
+        choices : [{
+          message :{
+            content : `Nanba, Paruthiveeran, Naruto,LEO, Master`
+          }
+        }]
+      }
+      async function  main() {
+         gptResults = await openai.chat.completions.create({
           messages: [{ role: 'user', content: gptQuery }],
           model: 'gpt-3.5-turbo',
         });
-        console.log(chatCompletion)
       }
-      
-      main();
+
+      if(!gptResults?.choices) {
+          return toast(`Can't ! find the movie so search another movie`, {
+            icon: '⚠️',
+            style: {
+              borderRadius: '10px',
+              background: '#333',
+              color: '#fff',
+            },
+          });
+        }
+        // * use row data beacuse open ai api reach limit
+        let movie = ["Nanban","Paruthiveeran","Naruto","LEO","Master"]
+        const data = movie.map((movie)=>searchMovieTMDB(movie))
+        let tmtbResults =await Promise.all(data)
+        console.log(tmtbResults,"tmtbResults");
+          
     } catch (error) {
-      console.log(error?.message)
+      toast.error(error?.message)
     }finally{
       setLoading(false)
     }
@@ -51,6 +88,7 @@ const GptSearchBar = () => {
             }
          </button>
       </form>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };
