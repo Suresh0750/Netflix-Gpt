@@ -1,21 +1,24 @@
 import React, { useRef, useState } from "react";
 import Lang from '../utils/languageConstents'
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import openai from "../utils/openai";
 import toast, { Toaster } from 'react-hot-toast'
 import { API_OPTIONS } from "../utils/constants";
+import {addGptMovies} from '../utils/gptSlice'
+
 
 
 const GptSearchBar = () => {
 
+  const dispatch = useDispatch()
   const selectLanguage = useSelector((store)=>store?.config?.lang)
   const searchText = useRef(null)
   const [loading ,setLoading] = useState(false)
 
 
-  const searchMovieTMDB = async () => {
+  const searchMovieTMDB = async (movie) => {
     try {
-      const data = await  fetch('https://api.themoviedb.org/3/search/movie?query=leo&include_adult=false&language=en-US&page=1', API_OPTIONS)
+      const data = await  fetch(`https://api.themoviedb.org/3/search/movie?query=${movie}&include_adult=false&language=en-US&page=1`, API_OPTIONS)
       const json = await data.json()
       return json
     } catch (error) {
@@ -39,7 +42,7 @@ const GptSearchBar = () => {
       let gptResults = {
         choices : [{
           message :{
-            content : `Nanba, Paruthiveeran, Naruto,LEO, Master`
+            content : `Nanban, Paruthiveeran, Naruto,LEO, Master`
           }
         }]
       }
@@ -48,6 +51,7 @@ const GptSearchBar = () => {
           messages: [{ role: 'user', content: gptQuery }],
           model: 'gpt-3.5-turbo',
         });
+        console.log(gptResults,"gptResults")
       }
 
       if(!gptResults?.choices) {
@@ -65,6 +69,10 @@ const GptSearchBar = () => {
         const data = movie.map((movie)=>searchMovieTMDB(movie))
         let tmtbResults =await Promise.all(data)
         console.log(tmtbResults,"tmtbResults");
+       
+        if(tmtbResults?.length){
+          dispatch(addGptMovies({ movieNames:movie,movieResults: tmtbResults}))
+        }
           
     } catch (error) {
       toast.error(error?.message)
@@ -75,14 +83,14 @@ const GptSearchBar = () => {
   }
   return (
     <div className="pt-[10%] flex justify-center">
-      <form onSubmit={(e)=>e.preventDefault()}  className="p-4 grid w-1/2 grid-cols-12  bg-black text-white">
+      <form onSubmit={(e)=>e.preventDefault()}  className="p-0 md:p-4 w-[90%] grid md:w-1/2 grid-cols-12  bg-black text-white">
         <input
           type="text"
-          className="m-4 p-4 rounded col-span-9 text-black"
+          className="m-3 p-1 md:m-4 md:p-4 rounded col-span-9 text-black"
           placeholder={Lang?.[selectLanguage].gptSearchPlaceHolder}
           ref = {searchText}
         />
-        <button className="py-2 m-4 px-2 bg-red-700 col-span-3 rounded-lg  font-bold" onClick={handleSearchClick}>
+        <button className="rounded m-2 py-2 md:m-4 px-2 bg-red-700 col-span-3 md:rounded-lg  font-bold" onClick={handleSearchClick}>
             {
               Lang?.[selectLanguage]?.search
             }
